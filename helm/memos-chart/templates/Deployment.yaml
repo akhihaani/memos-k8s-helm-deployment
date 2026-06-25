@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memos
+  labels:
+    app: memos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memos
+  template:
+    metadata:
+      labels:
+        app: memos
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: memos
+          image: memos:local
+          ports:
+            - containerPort: 8081

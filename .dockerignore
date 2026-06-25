@@ -1,0 +1,12 @@
+.git
+*.md
+.env
+test/
+docs/
+node_modules
+.gitignore
+minimum-requirements.txt
+project-brief.txt
+README.md
+unstructured-notes.txt
+build.log
