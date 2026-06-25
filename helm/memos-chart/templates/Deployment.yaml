@@ -5,7 +5,7 @@ metadata:
   labels:
     app: memos
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: memos
@@ -17,6 +17,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: memos
-          image: memos:local
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: 8081
+            - containerPort: {{ .Values.containerPort }}

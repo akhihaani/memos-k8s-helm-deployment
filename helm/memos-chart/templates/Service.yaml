@@ -6,6 +6,6 @@ spec:
   selector:
     app: memos
   ports:
-    - port: 80
-      targetPort: 8081
-  type: ClusterIP
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.containerPort }}
+  type: {{ .Values.service.type }}

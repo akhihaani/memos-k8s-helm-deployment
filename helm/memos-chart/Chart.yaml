@@ -1,0 +1,6 @@
+apiVersion: v2          # the HELM CHART format version, not Kubernetes
+name: memos             # the chart's name
+description: A Helm chart to deploy the memos note-taking app
+type: application       # "application" (deployable) vs "library" (shared helpers)
+version: 1.0.0          # the version of THE CHART itself
+appVersion: "1.0.0"    # the version of the APP the chart deploys
