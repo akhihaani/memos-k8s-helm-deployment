@@ -1,0 +1,272 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:CreateTags",
+				"ec2:DescribeAccountAttributes",
+				"ec2:DescribeInternetGateways",
+				"ec2:DescribeNetworkAcls",
+				"ec2:DescribeNetworkInterfaces",
+				"ec2:DescribeRouteTables",
+				"ec2:DescribeSecurityGroupRules",
+				"ec2:DescribeSecurityGroups",
+				"ec2:DescribeSubnets",
+				"ec2:DescribeVpcs",
+				"ecr:GetAuthorizationToken",
+				"ecs:DeregisterTaskDefinition",
+				"ecs:DescribeTaskDefinition",
+				"elasticloadbalancing:CreateListener",
+				"elasticloadbalancing:CreateLoadBalancer",
+				"elasticloadbalancing:DescribeCapacityReservation",
+				"elasticloadbalancing:DescribeListenerAttributes",
+				"elasticloadbalancing:DescribeListeners",
+				"elasticloadbalancing:DescribeLoadBalancerAttributes",
+				"elasticloadbalancing:DescribeLoadBalancers",
+				"elasticloadbalancing:DescribeTags",
+				"logs:DescribeLogGroups",
+				"logs:ListTagsForResource",
+				"sts:GetCallerIdentity",
+				"elasticloadbalancing:RegisterTargets",
+				"elasticloadbalancing:DeregisterTargets",
+				"iam:CreateRole",
+				"iam:AttachRolePolicy",
+				"iam:PassRole",
+				"route53:GetHostedZone",
+				"route53:ChangeResourceRecordSets",
+				"route53:ListHostedZones",
+				"route53:ListTagsForResource",
+				"iam:GetRole",
+				"iam:DeleteRole",
+				"iam:DetachRolePolicy",
+				"iam:ListRolePolicies",
+				"iam:ListAttachedRolePolicies",
+				"iam:TagRole",
+				"iam:UntagRole",
+				"iam:ListInstanceProfilesForRole",
+				"ec2:DescribeAvailabilityZones",
+				"ec2:DescribeRegions",
+				"ecs:ListClusters",
+				"route53:GetChange",
+				"elasticloadbalancing:DescribeTargetHealth",
+				"acm:AddTagsToCertificate",
+				"acm:ListTagsForCertificate",
+				"acm:RemoveTagsFromCertificate",
+				"s3:GetBucketWebsite",
+				"s3:GetBucketCORS",
+				"s3:GetBucketObjectLockConfiguration",
+				"s3:GetBucketPolicy",
+				"s3:GetBucketPolicyStatus",
+				"elasticloadbalancing:DescribeTargetGroups",
+				"elasticloadbalancing:DescribeTargetGroupAttributes",
+				"ec2:DeleteNetworkInterface",
+				"acm:RequestCertificate",
+				"route53:ListResourceRecordSets"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"acm:DeleteCertificate",
+				"acm:DescribeCertificate",
+				"acm:ListTagsForCertificate"
+			],
+			"Resource": "arn:aws:acm:${region}:${account_id}:certificate/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:AttachInternetGateway",
+				"ec2:CreateInternetGateway",
+				"ec2:DeleteInternetGateway",
+				"ec2:DetachInternetGateway"
+			],
+			"Resource": "arn:aws:ec2:${region}:${account_id}:internet-gateway/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:AssociateRouteTable",
+				"ec2:DisassociateRouteTable",
+				"ec2:CreateRoute",
+				"ec2:CreateRouteTable",
+				"ec2:DeleteRouteTable"
+			],
+			"Resource": "arn:aws:ec2:${region}:${account_id}:route-table/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:AuthorizeSecurityGroupEgress",
+				"ec2:AuthorizeSecurityGroupIngress",
+				"ec2:RevokeSecurityGroupEgress",
+				"ec2:RevokeSecurityGroupIngress",
+				"ec2:CreateSecurityGroup",
+				"ec2:DeleteSecurityGroup"
+			],
+			"Resource": "arn:aws:ec2:${region}:${account_id}:security-group/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:CreateSubnet",
+				"ec2:DeleteSubnet",
+				"ec2:ModifySubnetAttribute",
+				"ec2:AssociateRouteTable",
+				"ec2:DisassociateRouteTable"
+			],
+			"Resource": "arn:aws:ec2:${region}:${account_id}:subnet/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:AttachInternetGateway",
+				"ec2:CreateRouteTable",
+				"ec2:CreateSubnet",
+				"ec2:CreateVpc",
+				"ec2:DeleteVpc",
+				"ec2:DescribeVpcAttribute",
+				"ec2:DetachInternetGateway",
+				"ec2:GetSecurityGroupsForVpc",
+				"ec2:ModifyVpcAttribute",
+				"ec2:CreateSecurityGroup",
+				"ec2:DeleteSecurityGroup"
+			],
+			"Resource": "arn:aws:ec2:${region}:${account_id}:vpc/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ecr:BatchCheckLayerAvailability",
+				"ecr:CompleteLayerUpload",
+				"ecr:DeleteRepository",
+				"ecr:DescribeRepositories",
+				"ecr:InitiateLayerUpload",
+				"ecr:ListTagsForResource",
+				"ecr:PutImage",
+				"ecr:UploadLayerPart",
+				"ecr:DescribeImageScanFindings"
+			],
+			"Resource": "arn:aws:ecr:${region}:${account_id}:repository/memos"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ecs:CreateCluster",
+				"ecs:DeleteCluster",
+				"ecs:DescribeClusters"
+			],
+			"Resource": "arn:aws:ecs:${region}:${account_id}:cluster/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ecs:CreateService",
+				"ecs:DeleteService",
+				"ecs:DescribeServices",
+				"ecs:UpdateService"
+			],
+			"Resource": "arn:aws:ecs:${region}:${account_id}:service/*/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": "ecs:RegisterTaskDefinition",
+			"Resource": "arn:aws:ecs:${region}:${account_id}:task-definition/*:*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": "elasticloadbalancing:DeleteListener",
+			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:listener/app/*/*/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": "elasticloadbalancing:DeleteListener",
+			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:listener/gwy/*/*/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": "elasticloadbalancing:DeleteListener",
+			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:listener/net/*/*/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"elasticloadbalancing:AddTags",
+				"elasticloadbalancing:DeleteLoadBalancer",
+				"elasticloadbalancing:ModifyLoadBalancerAttributes"
+			],
+			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:loadbalancer/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"elasticloadbalancing:CreateTargetGroup",
+				"elasticloadbalancing:DeleteTargetGroup",
+				"elasticloadbalancing:ModifyTargetGroupAttributes"
+			],
+			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:targetgroup/*/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"kms:CreateGrant",
+				"kms:DescribeKey"
+			],
+			"Resource": "arn:aws:kms:${region}:${account_id}:key/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"logs:CreateLogGroup",
+				"logs:DeleteLogGroup"
+			],
+			"Resource": "arn:aws:logs:${region}:${account_id}:log-group:*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"s3:ListBucket",
+				"s3:GetBucketLocation",
+				"s3:GetBucketVersioning",
+				"s3:GetBucketEncryption",
+				"s3:GetBucketPolicy",
+				"s3:GetBucketPolicyStatus",
+				"s3:GetBucketWebsite",
+				"s3:GetBucketCORS",
+				"s3:GetBucketTagging",
+				"s3:GetBucketLogging",
+				"s3:GetBucketObjectLockConfiguration",
+				"s3:GetBucketAcl",
+				"s3:GetLifecycleConfiguration",
+				"s3:GetReplicationConfiguration"
+			],
+			"Resource": [
+				"arn:aws:s3:::memos-tfstate-${account_id}",
+				"arn:aws:s3:::memos-lb-logs-${account_id}"
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"s3:GetObject",
+				"s3:PutObject",
+				"s3:DeleteObject"
+			],
+			"Resource": [
+				"arn:aws:s3:::memos-tfstate-${account_id}/*",
+				"arn:aws:s3:::memos-lb-logs-${account_id}/*"
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:GetItem",
+				"dynamodb:PutItem",
+				"dynamodb:DeleteItem"
+			],
+			"Resource": "arn:aws:dynamodb:${region}:${account_id}:table/terraform-state-locks"
+		}
+	]
+}
