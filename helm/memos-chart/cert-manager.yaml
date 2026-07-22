@@ -1,0 +1,16 @@
+# ingressShim: # input from the helm chart
+  # defaultACMEChallengeType: dns01
+  # defaultACMEDNS01ChallengeProvider: route53
+
+# This was removed as it was strange to have this setting
+# be configured in the cert-managers yaml file
+# rather than the cluster-issuer's yaml file
+
+extraArgs:
+- --dns01-recursive-nameservers="8.8.8.8:53"
+- --dns01-recursive-nameservers-only
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::310829530244:role/cert_manager"
+    # We got this ARN from the cert-manager IAM role

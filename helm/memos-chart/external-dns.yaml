@@ -1,0 +1,13 @@
+provider: aws
+
+env:
+- name: AWS_DEFAULT_REGION
+  value: eu-west-2
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::310829530244:role/external_dns"
+    # We got this ARN from the external_dns IAM role
+
+domainFilters:
+- abuniyyah.uk
