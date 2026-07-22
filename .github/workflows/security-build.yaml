@@ -1,0 +1,106 @@
+name: memos-security-build-pipeline
+
+on:
+  workflow_dispatch: # manually run from the Github UI
+
+permissions:
+  id-token: write    # required for OIDC — lets the workflow request a JWT
+  contents: read     # needed for actions/checkout to clone the repo
+
+# What the workflow actualy does
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo # Clones your repo onto the VM that runs this workflow
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/memos_github_role
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Checkov scan
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: Terraform/
+          framework: terraform
+          soft_fail: true        # Report findings but don't fail the build
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and Tag Docker image
+        run: docker build -t ${{ vars.ECR_REPO }}:${{ github.sha }} -f Dockerfile ./app/memos
+
+      - name: Push image to ECR
+        run: docker push ${{ vars.ECR_REPO }}:${{ github.sha }}
+
+      - name: ECR image scan results
+        env:
+          ECR_REPO: ${{ vars.ECR_REPO }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          REPO_NAME="${ECR_REPO##*/}"
+          for attempt in {1..12}; do
+            if aws ecr wait image-scan-complete \
+                --repository-name "$REPO_NAME" --image-id imageTag="$IMAGE_TAG" 2>/dev/null; then
+              break
+            fi
+            echo "Scan not ready yet (attempt $attempt); waiting 10s..."
+            sleep 10
+          done
+          {
+            echo "## ECR image scan - \`$IMAGE_TAG\`"
+            echo ""
+            echo "**Severity counts**"
+            echo '```'
+            aws ecr describe-image-scan-findings \
+              --repository-name "$REPO_NAME" \
+              --image-id imageTag="$IMAGE_TAG" \
+              --query 'imageScanFindings.findingSeverityCounts' --output table
+            echo '```'
+            echo "**Findings**"
+            echo '```'
+            aws ecr describe-image-scan-findings \
+              --repository-name "$REPO_NAME" \
+              --image-id imageTag="$IMAGE_TAG" \
+              --query 'imageScanFindings.findings[].{CVE:name,Severity:severity}' --output table
+            echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Trivy image scan
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25  # v0.36.0
+        with:
+          image-ref: ${{ vars.ECR_REPO }}:${{ github.sha }}
+          format: table
+          severity: CRITICAL,HIGH
+          exit-code: '1'            
+          ignore-unfixed: true
+
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --name memos-eks-cluster --region ${{ vars.AWS_REGION }}
+
+      - name: Install Helm
+        uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310
+          
+      - name: Helm Deploy
+        run: |
+          helm upgrade --install memos ./helm/memos-chart \
+            --namespace memos --create-namespace \
+            --set image.repository=${{ vars.ECR_REPO }} \
+            --set image.tag=${{ github.sha }} \
+            --wait
+
+      - name: Post-Deploy Health check
+        run: for i in {1..30}; do
+               curl -fsS https://${{ vars.APP_DOMAIN }}/healthz && break
+               echo "waiting for app...($i)"; sleep 20
+             done
+
+      - name: Provide App URL
+        if: always()
+        run: echo "✅ App is live at [https://${{ vars.APP_DOMAIN }}](https://${{ vars.APP_DOMAIN }})" >> "$GITHUB_STEP_SUMMARY"

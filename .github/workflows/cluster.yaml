@@ -1,0 +1,50 @@
+name: memos-cluster-pipeline
+
+on:
+  workflow_dispatch: # manually run from the Github UI
+
+permissions:
+  id-token: write    # required for OIDC — lets the workflow request a JWT
+  contents: read     # needed for actions/checkout to clone the repo
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo # Clones your repo onto the VM that runs this workflow
+        uses: actions/checkout@v6
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/memos_github_role
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v4
+
+      - name: Install tflint
+        uses: terraform-linters/setup-tflint@v6
+
+      - name: Install Terragrunt
+        uses: eLco/setup-terragrunt@v1
+
+      - name: Terragrunt Init
+        working-directory: Terraform/infra
+        run: terragrunt run-all init
+        
+      - name: Terraform Format
+        working-directory: Terraform/infra
+        run: terraform fmt -check -recursive
+        
+      - name: Terragrunt Validate
+        working-directory: Terraform/infra
+        run: terragrunt run-all validate
+        
+      - name: Terraform Lint
+        working-directory: Terraform/infra
+        run: tflint --recursive
+        
+      - name: Terragrunt Run
+        working-directory: Terraform/infra
+        run: terragrunt run-all apply --non-interactive
