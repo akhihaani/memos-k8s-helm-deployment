@@ -63,7 +63,7 @@ FROM alpine@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afd
 LABEL org.opencontainers.image.title="memos" \
       org.opencontainers.image.description="A self hosted Markdown note taking app" \
       org.opencontainers.image.version="1.0.0" \
-      org.opencontainers.image.source="https://github.com/akhihaani/production-grade-aws-deployment-pipeline"
+      org.opencontainers.image.source="https://github.com/akhihaani/memos-k8s-helm-deployment"
 # Metadata which gives extra information for those looking at the container
 # Standard is to place label after FROM but there is no technical benefit to that
 
