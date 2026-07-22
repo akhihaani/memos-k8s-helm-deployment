@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: memos
+  labels:
+    app: memos
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - eks.abuniyyah.uk
+      secretName: memos-tls
+  rules:
+  - host: eks.abuniyyah.uk
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: memos
+            port:
+              number: 80
