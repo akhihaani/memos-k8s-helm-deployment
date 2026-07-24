@@ -10,10 +10,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - eks.abuniyyah.uk
+        - memos.abuniyyah.uk
       secretName: memos-tls
   rules:
-  - host: eks.abuniyyah.uk
+  - host: memos.abuniyyah.uk
     http:
       paths:
       - path: /

@@ -10,4 +10,4 @@ serviceAccount:
     # We got this ARN from the external_dns IAM role
 
 domainFilters:
-- abuniyyah.uk
+- memos.abuniyyah.uk
