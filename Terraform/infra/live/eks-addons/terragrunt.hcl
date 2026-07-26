@@ -9,10 +9,22 @@ terraform {
 
 dependency "eks" {
     config_path = "../eks"
+
+    mock_outputs = {
+      cluster_endpoint = "https://mock.eks.amazonaws.com"
+      cluster_certificate_authority = "bW9jaw=="
+      cluster_name = "mock-cluster"
+    }
+    mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
 }
 
 dependency "bootstrap" {
   config_path = "../../../bootstrap"
+
+  mock_outputs = {
+    memos_hosted_zone_id = "ZMOCK000000000"
+  }
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
 }
 
 inputs = {
