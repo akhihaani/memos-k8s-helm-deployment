@@ -13,7 +13,7 @@ dependency "vpc" {
     mock_outputs = {
       memos_private_subnet = ["subnet-mock"]
     }
-    mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
+    mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "apply", "destroy"]
 }
 
 inputs = {
