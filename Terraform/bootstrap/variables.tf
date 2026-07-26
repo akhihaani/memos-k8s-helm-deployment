@@ -1,6 +1,6 @@
 variable "region" {
   type        = string
-  description = "AWS region to deploy into" 
+  description = "AWS region to deploy into"
 }
 
 variable "account_id" {
