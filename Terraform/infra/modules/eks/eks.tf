@@ -11,7 +11,7 @@ resource "aws_eks_cluster" "memos_eks_cluster" {
   version  = "1.35"
 
   vpc_config {
-    subnet_ids = var.private_subnet_ids
+    subnet_ids = var.memos_private_subnet
   }
 
   depends_on = [
@@ -51,7 +51,7 @@ resource "aws_eks_node_group" "memos_eks_node_group" {
   cluster_name    = aws_eks_cluster.memos_eks_cluster.name
   node_group_name = "memos-eks-node-group"
   node_role_arn   = aws_iam_role.memos_node_group_role.arn
-  subnet_ids      = var.private_subnet_ids
+  subnet_ids      = var.memos_private_subnet
 
   scaling_config {
     desired_size = 1

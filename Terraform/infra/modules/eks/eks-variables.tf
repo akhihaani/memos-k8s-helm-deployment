@@ -6,6 +6,6 @@ variable "region" {
   type = string
 }
 
-variable "private_subnet_ids" {
+variable "memos_private_subnet" {
   type = list(string)
 }
