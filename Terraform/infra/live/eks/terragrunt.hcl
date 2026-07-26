@@ -18,5 +18,5 @@ dependency "vpc" {
 
 inputs = {
   tags   = include.root.locals.tags
-  private_subnet_ids = dependency.vpc.outputs.memos_private_subnet
+  memos_private_subnet = dependency.vpc.outputs.memos_private_subnet
 }
