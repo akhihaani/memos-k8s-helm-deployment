@@ -57,8 +57,8 @@ RUN chmod 550 build/memos
 # first number is permissions for the owner (user), second number for the group, third is for everyone else
 
 ## STAGE 2: RUNTIME
-FROM alpine@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11
-# small and fast base image, that is the SHA256 hash for alpine:3.23.4 at the time of making this file.
+FROM alpine@sha256:fd791d74b68913cbb027c6546007b3f0d3bc45125f797758156952bc2d6daf40
+# small and fast base image, that is the SHA256 hash for alpine:3.23.5
 
 LABEL org.opencontainers.image.title="memos" \
       org.opencontainers.image.description="A self hosted Markdown note taking app" \
