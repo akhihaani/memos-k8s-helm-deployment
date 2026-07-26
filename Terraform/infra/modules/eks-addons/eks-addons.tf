@@ -18,8 +18,6 @@ resource "helm_release" "nginx_ingress" {
 
   create_namespace = true
   namespace        = "nginx-ingress"
-
-
 }
 
 resource "helm_release" "cert_manager" {
@@ -44,9 +42,7 @@ resource "helm_release" "cert_manager" {
     },
   ]
 
-  values = [
-    "${file("${path.module}/helm-values/cert-manager.yaml")}"
-  ]
+  values = [ file("${path.module}/helm-values/cert-manager.yaml") ]
 }
 
 # Cert Manager IRSA (IAM roles for service accounts)
@@ -89,9 +85,7 @@ resource "helm_release" "external_dns" {
     },
   ]
 
-  values = [
-    "${file("${path.module}/helm-values/external-dns.yaml")}"
-  ]
+  values = [ file("${path.module}/helm-values/external-dns.yaml") ]
 }
 
 # External DNS IRSA
