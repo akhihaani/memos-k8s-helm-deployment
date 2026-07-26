@@ -4,6 +4,8 @@
 		{
 			"Effect": "Allow",
 			"Action": [
+				"eks:*",
+				"iam:*",
 				"ec2:CreateTags",
 				"ec2:DescribeAccountAttributes",
 				"ec2:DescribeInternetGateways",
@@ -15,21 +17,9 @@
 				"ec2:DescribeSubnets",
 				"ec2:DescribeVpcs",
 				"ecr:GetAuthorizationToken",
-				"ecs:DeregisterTaskDefinition",
-				"ecs:DescribeTaskDefinition",
-				"elasticloadbalancing:CreateListener",
-				"elasticloadbalancing:CreateLoadBalancer",
-				"elasticloadbalancing:DescribeCapacityReservation",
-				"elasticloadbalancing:DescribeListenerAttributes",
-				"elasticloadbalancing:DescribeListeners",
-				"elasticloadbalancing:DescribeLoadBalancerAttributes",
-				"elasticloadbalancing:DescribeLoadBalancers",
-				"elasticloadbalancing:DescribeTags",
 				"logs:DescribeLogGroups",
 				"logs:ListTagsForResource",
 				"sts:GetCallerIdentity",
-				"elasticloadbalancing:RegisterTargets",
-				"elasticloadbalancing:DeregisterTargets",
 				"iam:CreateRole",
 				"iam:AttachRolePolicy",
 				"iam:PassRole",
@@ -47,33 +37,16 @@
 				"iam:ListInstanceProfilesForRole",
 				"ec2:DescribeAvailabilityZones",
 				"ec2:DescribeRegions",
-				"ecs:ListClusters",
 				"route53:GetChange",
-				"elasticloadbalancing:DescribeTargetHealth",
-				"acm:AddTagsToCertificate",
-				"acm:ListTagsForCertificate",
-				"acm:RemoveTagsFromCertificate",
 				"s3:GetBucketWebsite",
 				"s3:GetBucketCORS",
 				"s3:GetBucketObjectLockConfiguration",
 				"s3:GetBucketPolicy",
 				"s3:GetBucketPolicyStatus",
-				"elasticloadbalancing:DescribeTargetGroups",
-				"elasticloadbalancing:DescribeTargetGroupAttributes",
 				"ec2:DeleteNetworkInterface",
-				"acm:RequestCertificate",
 				"route53:ListResourceRecordSets"
 			],
 			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"acm:DeleteCertificate",
-				"acm:DescribeCertificate",
-				"acm:ListTagsForCertificate"
-			],
-			"Resource": "arn:aws:acm:${region}:${account_id}:certificate/*"
 		},
 		{
 			"Effect": "Allow",
@@ -154,63 +127,6 @@
 		{
 			"Effect": "Allow",
 			"Action": [
-				"ecs:CreateCluster",
-				"ecs:DeleteCluster",
-				"ecs:DescribeClusters"
-			],
-			"Resource": "arn:aws:ecs:${region}:${account_id}:cluster/*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"ecs:CreateService",
-				"ecs:DeleteService",
-				"ecs:DescribeServices",
-				"ecs:UpdateService"
-			],
-			"Resource": "arn:aws:ecs:${region}:${account_id}:service/*/*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": "ecs:RegisterTaskDefinition",
-			"Resource": "arn:aws:ecs:${region}:${account_id}:task-definition/*:*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": "elasticloadbalancing:DeleteListener",
-			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:listener/app/*/*/*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": "elasticloadbalancing:DeleteListener",
-			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:listener/gwy/*/*/*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": "elasticloadbalancing:DeleteListener",
-			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:listener/net/*/*/*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"elasticloadbalancing:AddTags",
-				"elasticloadbalancing:DeleteLoadBalancer",
-				"elasticloadbalancing:ModifyLoadBalancerAttributes"
-			],
-			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:loadbalancer/*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"elasticloadbalancing:CreateTargetGroup",
-				"elasticloadbalancing:DeleteTargetGroup",
-				"elasticloadbalancing:ModifyTargetGroupAttributes"
-			],
-			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:targetgroup/*/*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
 				"kms:CreateGrant",
 				"kms:DescribeKey"
 			],
@@ -243,8 +159,7 @@
 				"s3:GetReplicationConfiguration"
 			],
 			"Resource": [
-				"arn:aws:s3:::memos-tfstate-${account_id}",
-				"arn:aws:s3:::memos-lb-logs-${account_id}"
+				"arn:aws:s3:::memos-eks-tfstate-${account_id}"
 			]
 		},
 		{
@@ -255,8 +170,7 @@
 				"s3:DeleteObject"
 			],
 			"Resource": [
-				"arn:aws:s3:::memos-tfstate-${account_id}/*",
-				"arn:aws:s3:::memos-lb-logs-${account_id}/*"
+				"arn:aws:s3:::memos-eks-tfstate-${account_id}/*"
 			]
 		},
 		{
