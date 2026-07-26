@@ -45,7 +45,7 @@ resource "helm_release" "cert_manager" {
   ]
 
   values = [
-    "${file("../../../../helm/memos-chart/cert-manager.yaml")}"
+    "${file("{path.module}/helm-values/cert-manager.yaml")}"
   ]
 }
 
@@ -90,7 +90,7 @@ resource "helm_release" "external_dns" {
   ]
 
   values = [
-    "${file("../../../../helm/memos-chart/external-dns.yaml")}"
+    "${file("{path.module}/helm-values/external-dns.yaml")}"
   ]
 }
 
