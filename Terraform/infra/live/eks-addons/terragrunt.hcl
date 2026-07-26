@@ -29,7 +29,6 @@ dependency "bootstrap" {
 }
 
 inputs = {
-  tags   = include.root.locals.tags
   cluster_endpoint = dependency.eks.outputs.cluster_endpoint
   cluster_certificate_authority = dependency.eks.outputs.cluster_certificate_authority
   cluster_name = dependency.eks.outputs.cluster_name
