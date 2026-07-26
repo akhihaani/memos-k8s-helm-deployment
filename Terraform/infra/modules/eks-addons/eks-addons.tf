@@ -66,7 +66,7 @@ module "cert_manager_irsa_role" {
 
   oidc_providers = {
     eks = {
-      provider_arn               = module.eks.oidc_provider_arn
+      provider_arn               = module.oidc_provider_arn
       namespace_service_accounts = ["cert-manager:cert-manager"]
     }
   }
@@ -106,7 +106,7 @@ module "external_dns_irsa_role" {
 
   oidc_providers = {
     eks = {
-      provider_arn               = module.eks.oidc_provider_arn
+      provider_arn               = module.oidc_provider_arn
       namespace_service_accounts = ["external-dns:external-dns"]
     }
   }
