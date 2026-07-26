@@ -172,15 +172,6 @@
 			"Resource": [
 				"arn:aws:s3:::memos-eks-tfstate-${account_id}/*"
 			]
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"dynamodb:GetItem",
-				"dynamodb:PutItem",
-				"dynamodb:DeleteItem"
-			],
-			"Resource": "arn:aws:dynamodb:${region}:${account_id}:table/terraform-state-locks"
 		}
 	]
 }

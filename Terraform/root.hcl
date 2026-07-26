@@ -33,7 +33,7 @@ remote_state {
         bucket = "memos-eks-tfstate-${local.account_id}"
         key = "${path_relative_to_include()}/tf.tfstate"
         region = local.region
-        dynamodb_table = "terraform-state-locks"
+        use_lockfile = true
     }
     generate = {
         path = "backend.tf"
