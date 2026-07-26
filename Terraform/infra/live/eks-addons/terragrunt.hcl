@@ -34,5 +34,5 @@ inputs = {
   cluster_certificate_authority = dependency.eks.outputs.cluster_certificate_authority
   cluster_name = dependency.eks.outputs.cluster_name
   memos_hosted_zone_id = dependency.bootstrap.outputs.memos_hosted_zone_id
-  oidc_provider_arn = dependency.eks.oidc_provider_arn
+  oidc_provider_arn = dependency.eks.outputs.oidc_provider_arn
 }
