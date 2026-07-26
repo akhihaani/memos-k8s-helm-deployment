@@ -19,15 +19,15 @@ resource "helm_release" "nginx_ingress" {
   create_namespace = true
   namespace        = "nginx-ingress"
 
-  
+
 }
 
 resource "helm_release" "cert_manager" {
   name = "cert-manager"
 
-  repository = "oci://quay.io/jetstack/charts"
-  chart      = "cert-manager"
-  version    = "v1.20.0"
+  repository       = "oci://quay.io/jetstack/charts"
+  chart            = "cert-manager"
+  version          = "v1.20.0"
   create_namespace = true
   namespace        = "cert-manager"
 
@@ -116,29 +116,29 @@ module "external_dns_irsa_role" {
 # Let's Encrypt - ClusterIssuer
 resource "kubernetes_manifest" "clusterIssuer-Prod" {
   manifest = {
-"apiVersion" = "cert-manager.io/v1"
-"kind" = "ClusterIssuer"
-"metadata" = {
-  name = "letsencrypt-dns01"
-           }
-"spec" = {
-  acme = {
-    server = "https://acme-v02.api.letsencrypt.org/directory"
-    email = "akhihaani@gmail.com"
-    privateKeySecretRef = {
-      name = "letsencrypt-dns01-account-key"
-  }
-    solvers = [
-    { dns01 = {
-        route53 = {
-          # AWS region where your Route53 hosted zone resides
-          region = "eu-west-2"
+    "apiVersion" = "cert-manager.io/v1"
+    "kind"       = "ClusterIssuer"
+    "metadata" = {
+      name = "letsencrypt-dns01"
+    }
+    "spec" = {
+      acme = {
+        server = "https://acme-v02.api.letsencrypt.org/directory"
+        email  = "akhihaani@gmail.com"
+        privateKeySecretRef = {
+          name = "letsencrypt-dns01-account-key"
+        }
+        solvers = [
+          { dns01 = {
+            route53 = {
+              # AWS region where your Route53 hosted zone resides
+              region = "eu-west-2"
 
-          # When using IRSA, no need to specify credentials
-          # cert-manager uses the service account's IAM role
-        }
-        }
-        }
+              # When using IRSA, no need to specify credentials
+              # cert-manager uses the service account's IAM role
+            }
+            }
+          }
         ]
       }
     }
@@ -147,29 +147,29 @@ resource "kubernetes_manifest" "clusterIssuer-Prod" {
 
 resource "kubernetes_manifest" "clusterIssuer-Stage" {
   manifest = {
-"apiVersion" = "cert-manager.io/v1"
-"kind" = "ClusterIssuer"
-"metadata" = {
-  name = "letsencrypt-staging"
-           }
-"spec" = {
-  acme = {
-    server = "https://acme-staging-v02.api.letsencrypt.org/directory"
-    email = "akhihaani@gmail.com"
-    privateKeySecretRef = {
-      name = "letsencrypt-staging-account-key"
-  }
-    solvers = [
-    { dns01 = {
-        route53 = {
-          # AWS region where your Route53 hosted zone resides
-          region = "eu-west-2"
+    "apiVersion" = "cert-manager.io/v1"
+    "kind"       = "ClusterIssuer"
+    "metadata" = {
+      name = "letsencrypt-staging"
+    }
+    "spec" = {
+      acme = {
+        server = "https://acme-staging-v02.api.letsencrypt.org/directory"
+        email  = "akhihaani@gmail.com"
+        privateKeySecretRef = {
+          name = "letsencrypt-staging-account-key"
+        }
+        solvers = [
+          { dns01 = {
+            route53 = {
+              # AWS region where your Route53 hosted zone resides
+              region = "eu-west-2"
 
-          # When using IRSA, no need to specify credentials
-          # cert-manager uses the service account's IAM role
-        }
-        }
-        }
+              # When using IRSA, no need to specify credentials
+              # cert-manager uses the service account's IAM role
+            }
+            }
+          }
         ]
       }
     }
