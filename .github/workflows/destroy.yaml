@@ -29,8 +29,8 @@ jobs:
 
       - name: Terragrunt Init
         working-directory: Terraform/infra
-        run: terragrunt run-all init
+        run: terragrunt run --all init
 
       - name: Terragrunt Destroy
         working-directory: Terraform/infra
-        run: terragrunt run-all destroy --non-interactive
+        run: terragrunt run --all destroy --non-interactive

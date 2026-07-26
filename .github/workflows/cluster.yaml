@@ -31,7 +31,7 @@ jobs:
 
       - name: Terragrunt Init
         working-directory: Terraform/infra
-        run: terragrunt run-all init
+        run: terragrunt run --all init
         
       - name: Terraform Format
         working-directory: Terraform/infra
@@ -39,7 +39,7 @@ jobs:
         
       - name: Terragrunt Validate
         working-directory: Terraform/infra
-        run: terragrunt run-all validate
+        run: terragrunt run --all validate
         
       - name: Terraform Lint
         working-directory: Terraform/infra
@@ -47,4 +47,4 @@ jobs:
         
       - name: Terragrunt Run
         working-directory: Terraform/infra
-        run: terragrunt run-all apply --non-interactive
+        run: terragrunt run --all apply --non-interactive
