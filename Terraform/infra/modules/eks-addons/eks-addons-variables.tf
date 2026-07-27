@@ -1,3 +1,5 @@
+variable "region" { type = string }
+
 variable "cluster_certificate_authority" { type = string }
 
 variable "cluster_endpoint" { type = string }

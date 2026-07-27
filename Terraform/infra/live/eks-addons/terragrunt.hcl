@@ -29,6 +29,7 @@ dependency "bootstrap" {
 }
 
 inputs = {
+  region = include.root.locals.region
   cluster_endpoint = dependency.eks.outputs.cluster_endpoint
   cluster_certificate_authority = dependency.eks.outputs.cluster_certificate_authority
   cluster_name = dependency.eks.outputs.cluster_name

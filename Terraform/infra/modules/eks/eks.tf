@@ -113,3 +113,18 @@ resource "aws_iam_openid_connect_provider" "irsa_oidc_provider" {
 
   tags = var.tags
 }
+
+data "aws_caller_identity" "current" {}
+
+resource "aws_eks_access_entry" "github_role" {
+  cluster_name  = aws_eks_cluster.memos_eks_cluster.name
+  principal_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/memos_github_role"
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "github_admin" {
+  cluster_name  = aws_eks_cluster.memos_eks_cluster.name
+  principal_arn = aws_eks_access_entry.github_role.principal_arn
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  access_scope { type = "cluster" }
+}
