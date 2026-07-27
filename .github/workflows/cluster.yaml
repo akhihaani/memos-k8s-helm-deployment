@@ -52,5 +52,17 @@ jobs:
       - name: Apply ClusterIssuer
         run: |
           aws eks update-kubeconfig --name memos-eks-cluster --region ${{ vars.AWS_REGION }}
-             kubectl apply -f manifests/clusterIssuer-prod.yaml
-             kubectl apply -f manifests/clusterIssuer-staging.yaml
+          kubectl apply -f manifests/clusterIssuer-prod.yaml
+          kubectl apply -f manifests/clusterIssuer-staging.yaml
+
+      - name: Install Helm
+        uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4  # v4.3.1
+
+      - name: Install NGINX Ingress
+        run: |
+          aws eks update-kubeconfig --name memos-eks-cluster --region ${{ vars.AWS_REGION }}
+          helm repo add nginx-stable https://helm.nginx.com/stable
+          helm repo update
+          helm upgrade --install nginx-ingress-controller nginx-stable/nginx-ingress \
+            --namespace nginx-ingress --create-namespace \
+            --skip-schema-validation

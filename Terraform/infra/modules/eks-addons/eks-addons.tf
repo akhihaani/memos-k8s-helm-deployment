@@ -10,16 +10,6 @@ provider "helm" {
   }
 }
 
-resource "helm_release" "nginx_ingress" {
-  name = "nginx-ingress-controller"
-
-  repository = "https://helm.nginx.com/stable"
-  chart      = "nginx-ingress"
-
-  create_namespace = true
-  namespace        = "nginx-ingress"
-}
-
 resource "helm_release" "cert_manager" {
   name = "cert-manager"
 
