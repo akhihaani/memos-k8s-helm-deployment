@@ -48,3 +48,9 @@ jobs:
       - name: Terragrunt Run
         working-directory: Terraform/infra
         run: terragrunt run --all apply --non-interactive
+
+      - name: Apply ClusterIssuer
+        run: |
+          aws eks update-kubeconfig --name memos-eks-cluster --region ${{ vars.AWS_REGION }}
+             kubectl apply -f manifests/clusterIssuer-prod.yaml
+             kubectl apply -f manifests/clusterIssuer-staging.yaml
