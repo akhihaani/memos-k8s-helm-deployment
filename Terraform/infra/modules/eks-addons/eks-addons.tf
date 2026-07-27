@@ -28,7 +28,7 @@ resource "helm_release" "cert_manager" {
   version          = "v1.20.0"
   create_namespace = true
   namespace        = "cert-manager"
-  depends_on       = [module.cert_manager_rsa_role.iam_role_arn]
+  depends_on       = [module.cert_manager_irsa_role.iam_role_arn]
 
   # First entry: cert-manager waits for the IAM role to be created.
   # Second entry: installs the custom resource definitions.
