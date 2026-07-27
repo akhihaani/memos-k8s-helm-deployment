@@ -28,16 +28,13 @@ resource "helm_release" "cert_manager" {
   version          = "v1.20.0"
   create_namespace = true
   namespace        = "cert-manager"
+  depends_on = [module.cert_manager_rsa_role.iam_role_arn]
 
   # First entry: cert-manager waits for the IAM role to be created.
   # Second entry: installs the custom resource definitions.
   set = [
     {
-      name  = "wait-for"
-      value = module.cert_manager_irsa_role.iam_role_arn
-    },
-    {
-      name  = "installCRDs"
+      name  = "crds.enabled"
       value = "true"
     },
   ]
@@ -46,8 +43,7 @@ resource "helm_release" "cert_manager" {
 }
 
 # Cert Manager IRSA (IAM roles for service accounts)
-
-# This allows the created IAM role to be able to add records to the hosted zone
+## This allows the created IAM role to be able to add records to the hosted zone
 
 module "cert_manager_irsa_role" {
   # This is a registry submodule, so Terraform requires `//modules/...`.
@@ -74,16 +70,9 @@ resource "helm_release" "external_dns" {
   name       = "external-dns"
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "external-dns"
-
   create_namespace = true
   namespace        = "external-dns"
-
-  set = [
-    {
-      name  = "wait-for"
-      value = module.external_dns_irsa_role.iam_role_arn
-    },
-  ]
+  depends_on = [module.external_dns_irsa_role.iam_role_arn]
 
   values = [file("${path.module}/helm-values/external-dns.yaml")]
 }

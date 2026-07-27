@@ -21,7 +21,3 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.containerPort }}
-          volumeMounts:
-            - name: secrets-store
-              mountPath: /mnt/secrets-store
-              readOnly: true

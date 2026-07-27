@@ -9,6 +9,6 @@ spec:
     privateKeySecretRef:
       name: "letsencrypt-dns01-account-key"
     solvers:
-      dns01:
-        route53:
-          region: "eu-west-2"
+      - dns01:
+          route53:
+            region: "eu-west-2"
