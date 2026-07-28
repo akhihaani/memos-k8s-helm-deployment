@@ -58,7 +58,7 @@ module "cert_manager_irsa_role" {
 # External DNS
 resource "helm_release" "external_dns" {
   name             = "external-dns"
-  repository       = "https://charts.bitnami.com/bitnami"
+  repository       = "https://kubernetes-sigs.github.io/external-dns/"
   chart            = "external-dns"
   create_namespace = true
   namespace        = "external-dns"
