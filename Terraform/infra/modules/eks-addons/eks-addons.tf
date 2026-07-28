@@ -83,5 +83,4 @@ module "external_dns_irsa_role" {
       namespace_service_accounts = ["external-dns:external-dns"]
     }
   }
-
 }
