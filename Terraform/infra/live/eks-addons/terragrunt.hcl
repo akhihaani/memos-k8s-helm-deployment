@@ -25,7 +25,7 @@ dependency "bootstrap" {
   mock_outputs = {
     memos_hosted_zone_id = "ZMOCK000000000"
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "destroy"]
 }
 
 inputs = {
