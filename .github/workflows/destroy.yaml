@@ -31,6 +31,14 @@ jobs:
         working-directory: Terraform/infra
         run: terragrunt run --all init
 
+      - name: Install Helm
+        uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4  # v4.3.1
+
+      - name: Remove NGINX ingress (frees its load balancer)
+        run: |
+          aws eks update-kubeconfig --name memos-eks-cluster --region ${{ vars.AWS_REGION }}
+          helm uninstall nginx-ingress-controller -n nginx-ingress || true
+          sleep 60   # let the cloud controller delete the ELB before we tear down the VPC
       - name: Terragrunt Destroy
         working-directory: Terraform/infra
         run: terragrunt run --all destroy --non-interactive
