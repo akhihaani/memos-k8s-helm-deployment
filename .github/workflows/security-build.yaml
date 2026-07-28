@@ -96,10 +96,14 @@ jobs:
             --wait
 
       - name: Post-Deploy Health check
-        run: for i in {1..30}; do
-               curl -fsS https://${{ vars.APP_DOMAIN }}/healthz && break
-               echo "waiting for app...($i)"; sleep 20
-             done
+        run: |
+          for i in {1..30}; do
+            curl -fsS https://${{ vars.APP_DOMAIN }}/healthz && exit 0
+            echo "waiting for app...($i)"
+            sleep 20
+          done
+          echo "app never became healthy" >&2
+          exit 1
 
       - name: Provide App URL
         if: always()
