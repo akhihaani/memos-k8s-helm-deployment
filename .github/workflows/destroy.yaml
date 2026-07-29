@@ -36,9 +36,14 @@ jobs:
 
       - name: Remove NGINX ingress (frees its load balancer)
         run: |
-          aws eks update-kubeconfig --name memos-eks-cluster --region ${{ vars.AWS_REGION }}
-          helm uninstall nginx-ingress-controller -n nginx-ingress || true
-          sleep 60   # let the cloud controller delete the ELB before we tear down the VPC
+          CLUSTERS=$(aws eks list-clusters --region ${{ vars.AWS_REGION }} --query "clusters" --output text)
+          if echo "$CLUSTERS" | grep -qw memos-eks-cluster; then
+            aws eks update-kubeconfig --name memos-eks-cluster --region ${{ vars.AWS_REGION }}
+            helm uninstall nginx-ingress-controller -n nginx-ingress || true
+            sleep 60
+          else
+            echo "No memos-eks-cluster present; skipping nginx cleanup."
+          fi
       - name: Terragrunt Destroy
         working-directory: Terraform/infra
         run: terragrunt run --all destroy --non-interactive
