@@ -44,7 +44,7 @@ module "cert_manager_irsa_role" {
 
   role_name                     = "cert_manager"
   attach_cert_manager_policy    = true
-  cert_manager_hosted_zone_arns = ["arn:aws:route53:::hostedzone/${var.memos_hosted_zone_id}"] #Hosted Zone ID
+  cert_manager_hosted_zone_arns = [data.aws_route53_zone.memos.arn] #Hosted Zone ID
 
   oidc_providers = {
     eks = {
@@ -75,7 +75,7 @@ module "external_dns_irsa_role" {
 
   role_name                     = "external_dns"
   attach_external_dns_policy    = true
-  external_dns_hosted_zone_arns = ["arn:aws:route53:::hostedzone/${var.memos_hosted_zone_id}"]
+  external_dns_hosted_zone_arns = [data.aws_route53_zone.memos.arn]
 
   oidc_providers = {
     eks = {
@@ -83,4 +83,8 @@ module "external_dns_irsa_role" {
       namespace_service_accounts = ["external-dns:external-dns"]
     }
   }
+}
+
+data "aws_route53_zone" "memos" {
+  name = var.domain
 }
