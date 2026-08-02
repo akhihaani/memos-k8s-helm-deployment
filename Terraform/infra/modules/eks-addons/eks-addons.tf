@@ -14,7 +14,7 @@ provider "helm" {
 resource "helm_release" "argo_cd" {
   name = "argo-cd"
 
-  repository       = "https://argoproj/github.io/argo-helm"
+  repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
   create_namespace = true
   namespace        = "argocd"
