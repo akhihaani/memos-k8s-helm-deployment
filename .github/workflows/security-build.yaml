@@ -2,10 +2,14 @@ name: memos-security-build-pipeline
 
 on:
   workflow_dispatch: # manually run from the Github UI
+  push:
+    paths:
+      - 'app/**'
+      - 'Dockerfile'
 
 permissions:
   id-token: write    # required for OIDC — lets the workflow request a JWT
-  contents: read     # needed for actions/checkout to clone the repo
+  contents: write     # needed for actions/checkout to clone the repo
 
 # What the workflow actualy does
 jobs:
@@ -81,18 +85,14 @@ jobs:
           exit-code: '1'            
           ignore-unfixed: true
 
-      - name: Update kubeconfig
-        run: aws eks update-kubeconfig --name memos-eks-cluster --region ${{ vars.AWS_REGION }}
-
-      - name: Post-Deploy Health check
+      - name: Bump image tag in git
         run: |
-          for i in {1..30}; do
-            curl -fsS https://${{ vars.APP_DOMAIN }}/healthz && exit 0
-            echo "waiting for app...($i)"
-            sleep 20
-          done
-          echo "app never became healthy" >&2
-          exit 1
+          sed -i "s|^  tag:.*|  tag: ${{ github.sha }}|" helm/memos-chart/values.yaml
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add helm/memos-chart/values.yaml
+          git commit -m "ci: deploy memos image ${{ github.sha }} [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}
 
       - name: Provide App URL
         if: always()
