@@ -10,6 +10,17 @@ provider "helm" {
   }
 }
 
+# ArgoCD
+resource "helm_release" "argo_cd" {
+  name = "argo-cd"
+
+  repository       = "https://github.com/argoproj/argo-helm"
+  chart            = "argo-cd"
+  create_namespace = true
+  namespace        = "argocd"
+}
+
+# Cert Manager
 resource "helm_release" "cert_manager" {
   name = "cert-manager"
 
@@ -34,7 +45,6 @@ resource "helm_release" "cert_manager" {
 
 # Cert Manager IRSA (IAM roles for service accounts)
 ## This allows the created IAM role to be able to add records to the hosted zone
-
 module "cert_manager_irsa_role" {
   # This is a registry submodule, so Terraform requires `//modules/...`.
   # Pinning the version keeps your code aligned with the tutorial/module API.

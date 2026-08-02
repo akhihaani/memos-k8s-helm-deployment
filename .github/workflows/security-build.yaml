@@ -84,17 +84,6 @@ jobs:
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name memos-eks-cluster --region ${{ vars.AWS_REGION }}
 
-      - name: Install Helm
-        uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310
-          
-      - name: Helm Deploy
-        run: |
-          helm upgrade --install memos ./helm/memos-chart \
-            --namespace memos --create-namespace \
-            --set image.repository=${{ vars.ECR_REPO }} \
-            --set image.tag=${{ github.sha }} \
-            --wait
-
       - name: Post-Deploy Health check
         run: |
           for i in {1..30}; do
