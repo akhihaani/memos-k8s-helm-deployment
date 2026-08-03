@@ -98,3 +98,12 @@ module "external_dns_irsa_role" {
 data "aws_route53_zone" "memos" {
   name = var.domain
 }
+
+# Prometheus + Grafana
+resource "helm_release" "kube_prometheus_stack" {
+  name             = "kube-prometheus-stack"
+  repository       = "https://prometheus-community.github.io/helm-charts"
+  chart            = "kube-prometheus-stack"
+  namespace        = "monitoring"
+  create_namespace = true
+}
