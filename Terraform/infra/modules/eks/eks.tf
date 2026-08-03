@@ -6,14 +6,11 @@ resource "aws_eks_cluster" "memos_eks_cluster" {
   access_config {
     authentication_mode = "API"
   }
-
   role_arn = aws_iam_role.memos_cluster_role.arn
   version  = "1.35"
-
   vpc_config {
     subnet_ids = var.memos_private_subnet
   }
-
   depends_on = [
     aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy,
   ]
@@ -54,8 +51,8 @@ resource "aws_eks_node_group" "memos_eks_node_group" {
   subnet_ids      = var.memos_private_subnet
 
   scaling_config {
-    desired_size = 1
-    max_size     = 2
+    desired_size = 2
+    max_size     = 3
     min_size     = 1
   }
 
