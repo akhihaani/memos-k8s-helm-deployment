@@ -70,4 +70,7 @@ jobs:
           helm repo update
           helm upgrade --install nginx-ingress-controller nginx-stable/nginx-ingress \
             --namespace nginx-ingress --create-namespace \
+            --set controller.prometheus.create=true \
+            --set controller.prometheus.serviceMonitor.create=true \
+            --set controller.prometheus.serviceMonitor.labels.release=kube-prometheus-stack \
             --skip-schema-validation
