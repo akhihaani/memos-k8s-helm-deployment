@@ -70,7 +70,9 @@ jobs:
           helm repo update
           helm upgrade --install nginx-ingress-controller nginx-stable/nginx-ingress \
             --namespace nginx-ingress --create-namespace \
-            --set controller.prometheus.create=true \
-            --set controller.prometheus.serviceMonitor.create=true \
-            --set controller.prometheus.serviceMonitor.labels.release=kube-prometheus-stack \
+            --set prometheus.create=true \
+            --set prometheus.service.create=true \
             --skip-schema-validation
+
+      - name: Apply nginx ServiceMonitor
+        run: kubectl apply -f manifests/nginx-servicemonitor.yaml

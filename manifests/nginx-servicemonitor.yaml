@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nginx-ingress
+  namespace: nginx-ingress
+  labels:
+    release: kube-prometheus-stack # This is so Prometheus adopts it
+spec:
+  selector:
+    matchLabels:
+      service: nginx-ingress-prometheus-service
+  namespaceSelector:
+    matchNames:
+      - nginx-ingress
+  endpoints:
+    - port: prometheus # the named port, not the number
+      path: /metrics
