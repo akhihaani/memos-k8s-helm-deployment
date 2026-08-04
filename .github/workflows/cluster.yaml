@@ -76,3 +76,11 @@ jobs:
 
       - name: Apply nginx ServiceMonitor
         run: kubectl apply -f manifests/nginx-servicemonitor.yaml
+
+      - name: Provision Grafana dashboards
+        run: |
+          kubectl create configmap nginx-ingress-dashboard \
+            --from-file=nginx-ingress.json=monitoring/dashboards/nginx-ingress.json \
+            -n monitoring --dry-run=client -o yaml | kubectl apply -f -
+          kubectl label configmap nginx-ingress-dashboard -n monitoring \
+            grafana_dashboard=1 --overwrite
