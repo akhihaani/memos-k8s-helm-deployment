@@ -106,4 +106,26 @@ resource "helm_release" "kube_prometheus_stack" {
   chart            = "kube-prometheus-stack"
   namespace        = "monitoring"
   create_namespace = true
+
+  values = [yamlencode({
+    grafana = {
+      ingress = {
+        enabled          = true
+        ingressClassName = "nginx"
+        annotations = {
+          "cert-manager.io/cluster-issuer" = "letsencrypt-staging"
+        }
+        hosts = ["grafana.memos.abuniyyah.uk"]
+        tls = [{
+          secretName = "grafana-tls"
+          hosts      = ["grafana.memos.abuniyyah.uk"]
+        }]
+      }
+      "grafana.ini" = {
+        server = {
+          root_url = "https://grafana.memos.abuniyyah.uk"
+        }
+      }
+    }
+  })]
 }
