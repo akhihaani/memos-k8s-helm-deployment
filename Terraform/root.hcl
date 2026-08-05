@@ -3,7 +3,7 @@ locals {
   account_id = "310829530244"
   domain = "memos.abuniyyah.uk"
   ecr_repo = "${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/memos"
-  github_repo = "akhihaani/memos-k8s-helm-deployment"
+  github_repo = "akhihaani/production-grade-eks-helm-deployment"
 
   tags = {
     Project     = "Memos Application"

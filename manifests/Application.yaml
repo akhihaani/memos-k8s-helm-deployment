@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/akhihaani/memos-k8s-helm-deployment.git
+    repoURL: https://github.com/akhihaani/production-grade-eks-helm-deployment.git
     targetRevision: main
     path: helm/memos-chart
   destination:
